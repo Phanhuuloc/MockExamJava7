@@ -27,8 +27,8 @@ public class Mock1 {
                     method.invoke(Mock1.class);
                 }
 
-                System.out.println("input : " + input);
-                System.out.println("-----------\n");
+//                System.out.println("input : " + input);
+                System.out.println("\n-----------\n");
             }
 
         } catch (IOException e) {
