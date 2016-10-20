@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import static java.lang.System.out;
 
 public class Mock1 {
@@ -28,7 +29,7 @@ public class Mock1 {
                 }
 
 //                System.out.println("input : " + input);
-                System.out.println("\n-----------\n");
+                System.out.println("\n-----End of Mock test" + input + "------\n");
             }
 
         } catch (IOException e) {
@@ -85,22 +86,62 @@ public class Mock1 {
         Der d = new DeriDer();
     }
 
-    public static void test9(){
+    public static void test9() {
         Base b = new Der("Hello");
     }
 
-    public static void test11(){
+    public static void test11() {
         out.print("Long");
+    }
+
+    public static void test13() {
+        Base b = new Base1();
+        ((Base2)b).test();
+    }
+
+    public static void test14() {
+        Outer.Inner inner = new Outer().new Inner();
+    }
+
+    public static void test16() {
+        if(AnEnum.ONLY_MEM instanceof AnEnum){
+            System.out.println("Yes 1");
+        }
+        if(AnEnum.ONLY_MEM instanceof Enumbase){
+            System.out.println("Yes 2");
+        }
+        if(AnEnum.ONLY_MEM instanceof Enum){
+            System.out.println("Yes 3");
+        }
     }
 }
 
 class Base {
+
     public Base() {
-        System.out.println("base");
+//        System.out.println("base");
     }
 
     public Base(String s) {
-        System.out.println("base: "+s);
+        System.out.println("base: " + s);
+    }
+
+    public void test(){
+        System.out.println("Base");
+    }
+}
+
+class Base1 extends Base{
+    @Override
+    public void test() {
+        System.out.println("base1");
+    }
+}
+
+class Base2 extends Base{
+    @Override
+    public void test() {
+        System.out.println("base2");
     }
 }
 
@@ -123,8 +164,8 @@ class DeriDer extends Der {
     }
 }
 
-class Point{
-    private int x = 0,y;
+class Point {
+    private int x = 0, y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -141,8 +182,69 @@ class Point{
 
     public Point() {
 //        System.out.println("sd");
-        this(0,0);
+        this(0, 0);
 //        super();
 
+    }
+}
+
+class Outer{
+    private int mem =10;
+    class Inner{
+        private int imem = new Outer().mem;
+        public void print(){
+            System.out.println("inner");
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Outer().new Inner().imem);
+    }
+}
+
+interface Enumbase{}
+abstract class EnumExtend{
+
+}
+enum AnEnum implements Enumbase{
+    ONLY_MEM;
+
+//    private String aaa;
+//    private AnEnum() {
+//    }
+//
+//    private void method(){
+//
+//    }
+}
+
+class base1{
+    protected int var;
+}
+
+interface base2{
+    int var = 2;
+}
+
+class Test extends base1 implements base2{
+    public static void main(String[] args) {
+//        base1 b =new Test();
+        System.out.println("var"+base2.var);
+    }
+}
+
+class WildCard{
+    interface BI{}
+    interface DI extends BI{}
+    interface DDI extends DI{}
+
+    static class C<T>{}
+    static void foo(C<? super DI> arg){}
+
+    public static void main(String[] args) {
+        foo(new C<BI>());
+        foo(new C<DI>());
+//        foo(new C<DDI>());
+        foo(new C());
     }
 }
