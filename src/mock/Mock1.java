@@ -3,8 +3,13 @@ package mock;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static java.lang.System.out;
 
@@ -246,5 +251,55 @@ class WildCard{
         foo(new C<DI>());
 //        foo(new C<DDI>());
         foo(new C());
+    }
+}
+
+class ConutryComparator implements Comparator<String>{
+
+    @Override
+    public int compare(String o1, String o2) {
+        return o2.compareTo(o2);
+    }
+}
+
+class Sort{
+    public static void main(String[] args) {
+        String[] bric = {"Brazil","Russia","India","China"};
+        Arrays.sort(bric,null);
+        for (String c :
+                bric) {
+            System.out.println("c:"+c);
+        }
+    }
+}
+
+class ListFromVarargs {
+    public static <T> List<T> asList1(T... elements) {
+        ArrayList<T> temp = new ArrayList<>();
+        for(T element : elements) {
+            temp.add(element);
+        }
+        return temp;
+    }
+    public static <T> List<?> asList2(T... elements) {
+        ArrayList<T> temp = new ArrayList<>();
+        for(T element : elements) {
+            temp.add(element);
+        }
+        return temp;
+    }
+    public static <T> List<?> asList3(T... elements) {
+        ArrayList<T> temp = new ArrayList<>();
+        for(T element : elements) {
+            temp.add(element);
+        }
+        return temp;
+    }
+    public static <T> List<?> asList4(T... elements) {
+        List<T> temp = new ArrayList<T>();
+        for(T element : elements) {
+            temp.add(element);
+        }
+        return temp;
     }
 }
