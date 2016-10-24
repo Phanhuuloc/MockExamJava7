@@ -6,10 +6,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 import static java.lang.System.out;
 
@@ -118,6 +116,103 @@ public class Mock1 {
         if(AnEnum.ONLY_MEM instanceof Enum){
             System.out.println("Yes 3");
         }
+    }
+
+    public static void test35() {
+        Base11<Number> b = new Base11<Number>();
+//        Base11<Number> b1 = new Derived11<Number>();
+//        Base11<Number> b2 = new Derived11<Integer>();
+//         Derived11<Number> b3 = new Derived11<Integer>();
+//         Base11<Integer> b4 = new Derived11<Integer>();
+         Derived11<Integer> b5 = new Derived11<Integer>();
+    }
+
+    public static void test36() {
+        Base11<? extends Number> b = new Base11<Number>();
+//        Base11<? extends Number> b1 = new Derived11<Number>();
+//        Base11<? extends Number> b2 = new Derived11<Integer>();
+        Derived11<? extends Number> b3 = new Derived11<Integer>();
+//        Base11<?> b4 = new Derived11<Integer>();
+        Derived11<?> b5 = new Derived11<Integer>();
+
+    }
+
+    public static void test38() {
+        Set<Integer> set = new LinkedHashSet<Integer>(); //#1
+//        LinkedHashSet<Integer> set2 = new HashSet<Integer>(); //#2
+        SortedSet<Integer> set3 = new TreeSet<Integer>(); //#3
+//        SortedSet<Integer> set4 = new NavigableSet<Integer>(); //#4
+    }
+    public static void test39() {
+        Set<Integer> set = new TreeSet<Integer>();
+        set.add(5);
+        set.add(10);
+        set.add(3);
+        set.add(5);
+        set.add(null);
+        System.out.println(set);
+    }
+    public static void test41() {
+//        Map<String, int> map =         new HashMap<int, String>(); //#1
+        Map<String, String> map2 =
+                new HashMap<String, String>(); //#2
+        Map<String, String> map3 = new HashMap<>(); //#3
+//        Map<> map4 = new HashMap<String, String>(); //#4
+    }
+    public static void test42() {
+        Map<Integer, String> map = new TreeMap<Integer, String>();
+        map.put(5, "5");
+        map.put(10, "10");
+        map.put(3, "3");
+        map.put(5,"25");
+        System.out.println(map);
+
+    }
+
+    public static void test43(){
+        Deque<Integer> deque = new LinkedList<>();
+        deque.add(10);
+        deque.add(20);
+        deque.peek();
+        deque.peek();
+        deque.peek(); //#1
+        System.out.println(deque);
+    }
+
+    public static void test45(){
+        HashSet<Student> students = new HashSet<>();
+        students.add(new Student(5));
+        students.add(new Student(10));
+        System.out.println(students.contains(new Student(5)));
+    }
+
+    public static void test47(){
+        HashSet<Student> students = new HashSet<>();
+        students.add(new Student(5));
+        Student s10 = new Student(10);
+        students.add(s10);
+        System.out.println(students.contains(new Student(10)));
+        System.out.println(students.contains(s10));
+    }
+
+    public static void test49(){
+        List<Integer> intList = new ArrayList<>();
+        intList.add(10);
+        intList.add(20);
+        List list = intList;
+        list.add("hello");
+        list.add(new Base());
+
+        for(Object o : list) {
+            System.out.print(o + " ");
+        }
+    }
+
+    public static void test50(){
+//        Map<String, String> map1 = new NavigableMap<>();
+         Map<String, String> map2 = new IdentityHashMap<>();
+         Map<String, String> map3 = new Hashtable<>();
+//         Map<String, String> map4 = new ConcurrentMap<>();
     }
 }
 
@@ -301,5 +396,34 @@ class ListFromVarargs {
             temp.add(element);
         }
         return temp;
+    }
+}
+
+class TemplateType {
+    public static void main(String []args) {
+        List<Map<List<Integer>, List<String>>> list =
+                new ArrayList<>(); // ADD_MAP
+        Map<List<Integer>, List<String>> map = new HashMap<>();
+        list.add(null); // ADD_NULL
+        list.add(map);
+        list.add(new HashMap<List<Integer>,
+                        List<String>>()); // ADD_HASHMAP
+        for(Map element : list) { // ITERATE
+            System.out.print(element + " ");
+        }
+    }
+}
+
+class Base11<T extends Number> { }
+class Derived11<T> { }
+
+class Student{
+    public Student(int r) {
+        rollNo = r;
+    }
+    int rollNo;
+
+    public int hashCode(){
+        return rollNo;
     }
 }
