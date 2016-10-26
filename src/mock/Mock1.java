@@ -3,11 +3,11 @@ package mock;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.System.out;
 
@@ -213,6 +213,78 @@ public class Mock1 {
          Map<String, String> map2 = new IdentityHashMap<>();
          Map<String, String> map3 = new Hashtable<>();
 //         Map<String, String> map4 = new ConcurrentMap<>();
+    }
+
+    public static void test999(){
+        long a = (long) (Math.pow(2147483647,2147483647)%46340);
+        System.out.println(a);
+    }
+
+    public static void test51() {
+        String hello = "hello";
+        String world = "world";
+        StringBuffer helloWorld = new StringBuffer(hello + world);
+        List<String> list =
+                Arrays.asList(hello, world, helloWorld.toString());
+        helloWorld.append("!");
+        list.remove(0); // REMOVE
+        System.out.println(list);
+    }
+
+    public static void test52() {
+        String s = new String("5");
+        System.out.println(1+10+s+1+10);
+    }
+    public static void test53() {
+        String s = new String("5");
+        System.out.println(1.0+10.5+s+(1.0+10.5));
+    }
+    public static void test54() {
+        System.out.printf("%7.6s %n", "hello world");
+        System.out.printf("%05d", 123);
+    }
+
+    public static void test55(){
+        String two = "2";
+        System.out.println("1 + 2 + 3 + 4 = "
+                + 1 + Integer.parseInt(two) + 3 + 4); // PARSE
+    }
+
+    public static void test56(){
+        int a = 7, b = 10;
+        System.out.printf("no:%2$s and %1$s", a, b);
+        System.out.printf("\nno:2$s and 1$s", a, b);
+    }
+    public static void test57(){
+        String quote = "aba*abaa**aabaa***";
+        String [] words = quote.split("a\\**", 20);
+        int l=words.length;
+        System.out.println(l);
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
+
+    public static void test58(){
+        String str1 = "xxzz";
+        String str2 = "xyz";
+        String str3 = "yzz";
+        Pattern pattern = Pattern.compile("(xx)*y?z{1,}");
+        Matcher matcher = pattern.matcher(str1);
+        System.out.println(matcher.matches());
+        System.out.println(pattern.matcher(str2).matches());
+        System.out.println(
+                Pattern.compile("(xx)*y?z{1,}").
+                        matcher(str3).matches());
+    }
+
+    public static void test59(){
+        String str = "OCPJP 2013 OCPJP7";
+        Pattern pattern = Pattern.compile("\\w+\\D\\b");
+        Matcher matcher = pattern.matcher(str);
+        while(matcher.find()) {
+            System.out.println(matcher.group());
+        }
     }
 }
 
